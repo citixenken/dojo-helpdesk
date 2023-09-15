@@ -2,6 +2,9 @@ import Link from "next/link";
 
 // fetch data
 async function getTickets() {
+  // imitate delay to visualize loading page
+  await new Promise((resolve) => setTimeout(resolve, 4000));
+
   const res = await fetch("http://localhost:4000/tickets", {
     next: { revalidate: 0 }, // use 0 to opt out of using cached data
   });

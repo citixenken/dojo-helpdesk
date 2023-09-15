@@ -15,6 +15,9 @@ export async function generateStaticParams() {
 
 // fetch data
 async function getTicket(id) {
+  // imitate delay to visualize loading page
+  await new Promise((resolve) => setTimeout(resolve, 3000));
+
   const res = await fetch(`http://localhost:4000/tickets/${id}`, {
     next: { revalidate: 60 }, // use 0 to opt out of using cached data
   });
