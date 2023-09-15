@@ -1,8 +1,28 @@
+import { notFound } from "next/navigation";
+
+// render 404 if id of page hasn't been cached yet
+export const dynamicParams = true;
+
+// handling static rendering -Pre-rendering
+export async function generateStaticParams() {
+  const res = await fetch("http://localhost:4000/tickets");
+
+  const tickets = await res.json();
+
+  // return array of objs
+  return tickets.map((ticket) => ({ id: ticket.id }));
+}
+
 // fetch data
 async function getTicket(id) {
   const res = await fetch(`http://localhost:4000/tickets/${id}`, {
     next: { revalidate: 60 }, // use 0 to opt out of using cached data
   });
+
+  // if page not found
+  if (!res.ok) {
+    notFound();
+  }
 
   return res.json();
 }
